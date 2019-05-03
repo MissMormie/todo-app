@@ -57,6 +57,12 @@ public class TodoRestController {
         response.setStatus(HttpServletResponse.SC_OK);
         return todo;
     }
+        
+    @RequestMapping(value = "/todo/{todoId}", method = RequestMethod.DELETE)
+    public void deleteTodo(@PathVariable long todoId, HttpServletResponse response) {
+        todoRepository.deleteById(todoId);
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
     
     /**
      * Returns 

@@ -5,6 +5,7 @@
  */
 package nl.multimediaengineer.todo.controller;
 
+import java.util.Date;
 import javax.validation.Valid;
 import nl.multimediaengineer.todo.model.Todo;
 import nl.multimediaengineer.todo.repository.TodoRepository;
@@ -33,9 +34,12 @@ public class HomeController {
     @GetMapping({"/", "/home"})
     public String home(Model model) {
         Iterable<Todo> todos = todoRepository.findAll();
-        
         model.addAttribute("todos", todos);
-        model.addAttribute("todo", new Todo());
+
+        Todo todo = new Todo();
+        todo.setEndDate(new Date());
+        model.addAttribute("todo", todo);
+        
         return "home";
     }
     
