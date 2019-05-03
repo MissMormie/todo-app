@@ -5,7 +5,6 @@
  */
 package nl.multimediaengineer.todo.controller;
 
-import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -13,7 +12,6 @@ import nl.multimediaengineer.todo.model.Todo;
 import nl.multimediaengineer.todo.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,19 +31,15 @@ public class TodoRestController {
     public TodoRestController(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
-        
-//    @RequestMapping(value = "/todo", method = RequestMethod.POST)
-//    public Todo createTodo(@RequestBody @Valid Todo todo, Errors errors, HttpServletResponse response) throws IOException {
-//        if (errors.hasErrors()) {
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            return null;
-//        }
-//        todo = todoRepository.save(todo);
-//        response.setStatus(HttpServletResponse.SC_OK);
-//        return todo;
-//    }
-//    
     
+    /**
+     * Saves the posted Todo. Requires application/json header. 
+     * @param todoId
+     * @param todo
+     * @param errors
+     * @param response
+     * @return the todo as saved in the db in Json. Returns http response code 400 Bad Request if the Todo is not valid  
+     */
     @RequestMapping(value = "/todo/{todoId}", method= RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public Todo updateTodo(@PathVariable long todoId, @RequestBody @Valid Todo todo, Errors errors,  HttpServletResponse response) {
         if (errors.hasErrors()) {
@@ -58,6 +52,11 @@ public class TodoRestController {
         return todo;
     }
         
+    /**
+     * Removes the Todo wit the corresponding Id. 
+     * @param todoId
+     * @param response 
+     */
     @RequestMapping(value = "/todo/{todoId}", method = RequestMethod.DELETE)
     public void deleteTodo(@PathVariable long todoId, HttpServletResponse response) {
         todoRepository.deleteById(todoId);
@@ -65,7 +64,7 @@ public class TodoRestController {
     }
     
     /**
-     * Returns 
+     * Supplies the todo with the requested Id.
      * @param todoId
      * @param response
      * @return the todo item with the passed in Id value. Will respond with 
@@ -84,6 +83,4 @@ public class TodoRestController {
         return null;
     }
     
-    
-
 }

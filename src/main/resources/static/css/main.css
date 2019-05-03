@@ -1,1 +1,12 @@
+input[type=text] {
+ width : 100%;
+}
 
+.glyphicon{
+    color: red;
+    font-weight: bold;
+}
+
+.glyphicon:hover {
+    color: green;
+}

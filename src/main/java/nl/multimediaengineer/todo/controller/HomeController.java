@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
- 3
+ * Controls the homepage
  * @author sonja
  */
 @Controller
@@ -31,6 +31,11 @@ public class HomeController {
         this.todoRepository = todoRepository;
     }
     
+    /**
+     * Adds a list of all todo's to the model.
+     * @param model
+     * @return String for viewResolver
+     */
     @GetMapping({"/", "/home"})
     public String home(Model model) {
         Iterable<Todo> todos = todoRepository.findAll();
@@ -43,24 +48,27 @@ public class HomeController {
         return "home";
     }
     
+    
+    /**
+     * Saves the posted todo, adds a list of all todo's to the model.
+     * @param model
+     * @return String for viewResolver
+     */
     @PostMapping(value = "/home")
     public String home(@ModelAttribute @Valid Todo todo, Errors errors, Model model) {
-        Iterable<Todo> todos = todoRepository.findAll();
-        
-        model.addAttribute("todos", todos);
-
-        
         if(errors.hasErrors()) {
            model.addAttribute("todo", todo);
         } else {
-            model.addAttribute("todo", new Todo());
+            Todo todoObject = new Todo();
+            todoObject.setEndDate(new Date());
+            model.addAttribute("todo", todoObject);
             todoRepository.save(todo);
         }
+
+        Iterable<Todo> todos = todoRepository.findAll();
+        model.addAttribute("todos", todos);
         
         return "home";
-        
-        // TODO set up redirect so refreshing does not resend data.
-//        return "home";
     }
     
     

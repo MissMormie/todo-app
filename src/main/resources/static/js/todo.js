@@ -1,4 +1,6 @@
-
+/*
+* Todo
+*/
 var Todo = function(id, title, status, priority, endDate) {
     this.id = id;
     this.title = title;

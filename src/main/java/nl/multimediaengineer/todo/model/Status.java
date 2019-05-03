@@ -7,7 +7,12 @@ package nl.multimediaengineer.todo.model;
 
 /**
  *
- * @author sonja
+ *  Statusses that can be used
+ *  <li>{@link #OPEN}</li>
+ *  <li>{@link #IN_PROGRESS}</li>
+ *  <li>{@link #CLOSED}</li>
+ * 
+ *  @author sonja 
  */
 public enum Status {
     OPEN, IN_PROGRESS, CLOSED

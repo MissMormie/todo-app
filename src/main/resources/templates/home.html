@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Todo application</title>
-    <!-- todo Check if i need this-->
-<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
 
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 
@@ -20,10 +16,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Todo</a>
 </nav>-->
-<h1>Todo</h1>
 <main role="main" class="container">
-
-    
     <div>
         <form th:action="@{/home}" th:object="${todo}" method="post" id="newTodo">
         <h2>Nieuwe todo</h2>
@@ -31,9 +24,10 @@
             <thead>
                 <tr>
                     <td>Status</td>
-                    <td>Todo</td>
+                    <td  colspan="2">Todo</td>
                     <td>Prioriteit</td>
                     <td>Eind datum</td>
+                    <td></td>
                 </tr>
             </thead>
         <tr>
@@ -44,9 +38,8 @@
                     <option value="CLOSED">Klaar</option>
                 </select>
             </td>
-            <td>
+            <td colspan="2">
                 <input th:field="*{title}" type="text" required/>
-                       
             </td>
             <td>
                 <select th:field="*{priority}" >
@@ -58,10 +51,13 @@
             <td>
                 <input th:field="*{endDate}" type="date" required></input>
             </td>
+            <td>
+                <button class="btn btn-primary" type="submit" form="newTodo" value="Submit">Opslaan</button>
+            </td>
         </tr>
         
         </table>
-        <button type="submit" form="newTodo" value="Submit">Opslaan</button>
+
         </form>
 
     </div>
@@ -72,31 +68,32 @@
             <thead>
                 <tr>
                     <td>Status</td>
-                    <td>Todo</td>
+                    <td  colspan="2">Todo</td>
                     <td>Prioriteit</td>
                     <td>Eind datum</td>
+                    <td></td>
                 </tr>
             </thead>
         <tr th:each="todo : ${todos}" th:attr="data-id=${todo.id}">
             <td>
                 <select th:attr="data-id=${todo.id}" data-form="form-field" th:name="|todos[__${todo.id}__].status|" >
-                    <option value="OPEN">Open</option>
-                    <option value="IN_PROGRESS">Bezig</option>
-                    <option value="CLOSED">Klaar</option>
+                    <option th:selected="${todo.status == T(nl.multimediaengineer.todo.model.Status).OPEN}" value="OPEN">Open</option>
+                    <option th:selected="${todo.status == T(nl.multimediaengineer.todo.model.Status).IN_PROGRESS}"value="IN_PROGRESS">Bezig</option>
+                    <option th:selected="${todo.status == T(nl.multimediaengineer.todo.model.Status).CLOSED}"value="CLOSED">Klaar</option>
                 </select>
             </td>
-            <td>
+            <td colspan="2">
                 <input th:attr="data-id=${todo.id}" data-form="form-field" th:name="|todos[__${todo.id}__].title|"  type="text" th:value="${todo.title}"></input>
             </td>
             <td>
                 <select th:attr="data-id=${todo.id}" data-form="form-field"  th:name="|todos[__${todo.id}__].priority|" >
-                    <option value="LOW">Laag</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="HIGH">Hoog</option>
+                    <option th:selected="${todo.priority == T(nl.multimediaengineer.todo.model.Priority).LOW}" value="LOW">Laag</option>
+                    <option th:selected="${todo.priority == T(nl.multimediaengineer.todo.model.Priority).MEDIUM}" value="MEDIUM">Medium</option>
+                    <option th:selected="${todo.priority == T(nl.multimediaengineer.todo.model.Priority).HIGH} " value="HIGH">Hoog</option>
                 </select>
             </td>
-            <td>
-               <input th:attr="data-id=${todo.id}" data-form="form-field" type="date" th:name="|todos[__${todo.id}__].endDate|" th:value="${todo.endDate}" required></input>
+            <td th:with="endDate=${#dates.format(todo.endDate,'yyyy-MM-dd')}">
+               <input th:attr="data-id=${todo.id}" data-form="form-field" type="date" th:name="|todos[__${todo.id}__].endDate|" th:value="${endDate}" required></input>
             </td>
             <td><span th:attr="data-id=${todo.id}" data-action="delete" class="glyphicon glyphicon-search" aria-hidden="true">X</span></td>
         </tr>

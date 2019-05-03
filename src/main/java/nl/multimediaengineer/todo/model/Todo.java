@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
 /**
- *
+ * Java Bean for Todo
  * @author sonja
  */
 @Entity

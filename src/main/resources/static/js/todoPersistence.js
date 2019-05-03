@@ -1,3 +1,7 @@
+/*
+* Persists Todo,
+*/
+
 var TodoPersistence = function() {
     this.delaySaveTimeoutArray = new Array();
     this.delaySaveInMilliSeconds = 2000;
@@ -6,7 +10,10 @@ var TodoPersistence = function() {
 
 TodoPersistence.prototype.constructor = Todo;
 
-// Sets timeout of delaySaveInMilliSeconds before saving to prevent many consecutive saves.
+/**
+* Makes a request to save the todo. Saving is delayed for delaySaveInMilliSeconds, if any new changes are made within that time the old data is not saved, a new
+* delaySaveInMilliSeconds interval starts before the latest information is saved, to prevent many consecutive saves.
+*/
 TodoPersistence.prototype.saveTodo = function(todo, callBackSuccess, callBackFailure) {
     if(!todo instanceof Todo) {
         callBackFailure;
@@ -20,7 +27,9 @@ TodoPersistence.prototype.saveTodo = function(todo, callBackSuccess, callBackFai
     this.delaySaveTimeoutArray[todo.id] = window.setTimeout(self.performSave.bind(self), self.delaySaveInMilliSeconds, todo, callBackSuccess, callBackFailure);
 }
 
-
+/*
+* Makes a request to save the todo
+*/
 TodoPersistence.prototype.performSave = function(todo, callBackSuccess, callBackFailure) {
     $.ajaxSetup({
        headers:{
@@ -33,7 +42,9 @@ TodoPersistence.prototype.performSave = function(todo, callBackSuccess, callBack
       .fail(callBackFailure)
 }
 
-
+/**
+* Makes a request to delete the todo
+*/
 TodoPersistence.prototype.deleteTodo = function(todo, callBackSuccess, callBackFailure) {
     if(todo instanceof Todo) {
         callBackFailure;

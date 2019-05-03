@@ -7,7 +7,12 @@ package nl.multimediaengineer.todo.model;
 
 /**
  *
- * @author sonja
+ *  Priorities that can be used
+ *  <li>{@link #LOW}</li>
+ *  <li>{@link #MEDIUM}</li>
+ *  <li>{@link #HIGH}</li>
+ * 
+ *  @author sonja 
  */
 public enum Priority {
     LOW, MEDIUM, HIGH
